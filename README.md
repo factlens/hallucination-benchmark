@@ -71,7 +71,7 @@ Each strategy preserves a different subset of the distributional properties that
 ```python
 import pandas as pd
 
-df = pd.read_csv("data/human_confabulations.csv", sep=";")
+df: pd.DataFrame = pd.read_csv("data/human_confabulations.csv")
 
 # Browse a domain
 finance = df[df["domain"] == "finance"]
@@ -84,22 +84,25 @@ print(finance.iloc[0]["fabricated_response"])
 ### Embedding experiment
 
 ```python
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import numpy.typing as npt
+from sentence_transformers import SentenceTransformer
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
-df = pd.read_csv("data/human_confabulations.csv", sep=";")
+df: pd.DataFrame = pd.read_csv("data/human_confabulations.csv")
 
-questions = model.encode(df["question"].tolist())
-grounded = model.encode(df["grounded_response"].tolist())
-fabricated = model.encode(df["fabricated_response"].tolist())
+questions: npt.NDArray = model.encode(df["question"].tolist())
+grounded: npt.NDArray = model.encode(df["grounded_response"].tolist())
+fabricated: npt.NDArray = model.encode(df["fabricated_response"].tolist())
 
 # Detection: does cos(q, grounded) > cos(q, fabricated)?
-cos_qg = np.array([cosine_similarity([q], [g])[0][0] for q, g in zip(questions, grounded)])
-cos_qf = np.array([cosine_similarity([q], [f])[0][0] for q, f in zip(questions, fabricated)])
+def pairwise_cosine(a: npt.NDArray, b: npt.NDArray) -> npt.NDArray:
+    """Row-wise cosine similarity between aligned embedding matrices."""
+    a_n = a / np.linalg.norm(a, axis=1, keepdims=True)
+    b_n = b / np.linalg.norm(b, axis=1, keepdims=True)
+    return np.sum(a_n * b_n, axis=1)
 
-accuracy = np.mean(cos_qg > cos_qf)
+accuracy: float = float(np.mean(pairwise_cosine(questions, grounded) > pairwise_cosine(questions, fabricated)))
 print(f"Detection accuracy: {accuracy:.1%}")
 # Expected: ~69-78% (vs 88-97% on LLM-generated benchmarks)
 ```
