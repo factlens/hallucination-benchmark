@@ -130,7 +130,7 @@ def main():
     )
     args = parser.parse_args()
 
-    df = pd.read_csv(DATA_PATH, sep=";")
+    df = pd.read_csv(DATA_PATH, sep=",")
     print("=" * 60)
     print("Human-Confabulated Hallucination Benchmark")
     print("Detection Experiment")
