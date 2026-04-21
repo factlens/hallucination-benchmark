@@ -8,9 +8,7 @@ Usage:
 """
 
 from __future__ import annotations
-
 from pathlib import Path
-
 import pandas as pd
 
 DATA_PATH: Path = Path(__file__).parent.parent / "data" / "human_confabulations.csv"
@@ -29,7 +27,7 @@ def print_summary(df: pd.DataFrame) -> None:
     print("Human-Confabulated Hallucination Benchmark")
     print(SEPARATOR)
     print(f"\nTotal pairs: {len(df)}")
-    print(f"Domains:     {df['domain'].nunique()}")
+    print(f"Domains: {df['domain'].nunique()}")
 
     print("\nDomain distribution:")
     for domain, count in df["domain"].value_counts().items():
@@ -38,8 +36,8 @@ def print_summary(df: pd.DataFrame) -> None:
 
 def print_length_stats(df: pd.DataFrame) -> None:
     """Print word-count statistics for grounded vs. confabulated responses."""
-    grounded_len: pd.Series = df["grounded_response"].str.split().str.len()
-    fabricated_len: pd.Series = df["fabricated_response"].str.split().str.len()
+    grounded_len = df["grounded_response"].str.split().str.len()
+    fabricated_len = df["fabricated_response"].str.split().str.len()
 
     print(
         f"\nGrounded response length:     "
@@ -58,7 +56,7 @@ def print_examples(df: pd.DataFrame, *, max_chars: int = 100) -> None:
     print(SEPARATOR)
 
     for domain in sorted(df["domain"].unique()):
-        row: pd.Series = df[df["domain"] == domain].iloc[0]
+        row = df[df["domain"] == domain].iloc[0]
         print(f"\n--- {domain.upper()} ---")
         print(f"Q: {row['question'][:max_chars]}...")
         print(f"Grounded:     {row['grounded_response'][:max_chars]}...")
