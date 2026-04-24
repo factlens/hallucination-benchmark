@@ -1,16 +1,17 @@
+<div align="center">
+ 
 # A Methodology for Building a Human-Confabulated Hallucination Benchmarks
 
 [![Paper](https://img.shields.io/badge/paper-PDF-red?style=flat-square)](paper/paper.pdf)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/downloads/)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey?style=flat-square)](https://creativecommons.org/licenses/by/4.0/)
 [![Dataset: 212 pairs](https://img.shields.io/badge/pairs-212-green?style=flat-square)]()
-<!-- Add after submission: -->
-<!-- [![arXiv](https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b?style=flat-square)](https://arxiv.org/abs/XXXX.XXXXX) -->
-<!-- [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Dataset-yellow?style=flat-square)](https://huggingface.co/datasets/factlens/hallucination-benchmark) -->
+
+</div>
 
 ---
 
-Hallucination benchmarks mostly generates false or confabulated content by prompting an LLM. We present an approach human-centered where a non-expert writes the false responses from memory, without searching any source, producing confabulations (in the neuropsychological sense - [Berlyne, 1972](https://doi.org/10.1192/bjp.120.554.31).
+Hallucination benchmarks mostly generates false or confabulated content by prompting an LLM. We present an approach human-centered where a non-expert writes the false responses from memory, without searching any source, producing confabulations (in the neuropsychological sense - [Berlyne, 1972](https://doi.org/10.1192/bjp.120.554.31)).
 
 As a consequence, detection methods that reach 88-97% accuracy on LLM-generated benchmarks drop to 69--78% on these human confabulations. The false responses stay within the distributional register of their domain, making them invisible to cosine-similarity methods.
 
